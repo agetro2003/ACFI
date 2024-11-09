@@ -1,4 +1,4 @@
-import {pool} from "../utils"
+import {pool} from "../utils/index.js"
 
 const create = async (table, data)=>{
     const query = `
