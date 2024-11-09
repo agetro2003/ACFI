@@ -1,10 +1,11 @@
 import productController from "./product.controller.js";
-import profileController from "./profile.controller.js";
+import roleController from "./role.controller.js";
 import categoryController from "./category.controller.js";
-
+import authController from "./auth.controller.js";
 
 export { 
     productController, 
-    profileController,
-    categoryController
+    roleController,
+    categoryController,
+    authController
  };

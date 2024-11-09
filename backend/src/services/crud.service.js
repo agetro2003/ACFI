@@ -24,6 +24,19 @@ const getAll = async (table)=>{
     }
 }
 
+const getByField = async (table, searchField, searchValue)=>{
+    const query = `
+        SELECT * FROM ${table}
+        WHERE ${searchField}=$1
+    `
+    try {
+        const res = await pool.query(query, [searchValue])
+        return res.rows[0]
+    } catch (error) {
+        throw error
+    }
+}
+
 const update = async (table, data, searchField, searchValue)=>{
     const query = `
         UPDATE ${table} 
@@ -54,5 +67,6 @@ export default {
     create,
     getAll,
     update,
-    remove
+    remove,
+    getByField
 }

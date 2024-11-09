@@ -1,4 +1,3 @@
-import e from 'express'
 import { crudService } from '../services/index.js'
 import { ApiResponse } from '../utils/index.js'
 
