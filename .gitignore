@@ -1,0 +1,5 @@
+backend/node_modules
+.vscode
+.eslintcache
+.env
+node_modules
