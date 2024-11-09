@@ -18,9 +18,9 @@ CREATE TABLE product (
 );
 
 -- Tabla de perfiles
-CREATE TABLE profile (
-    profile_name TEXT PRIMARY KEY,
-    check (profile_name <> '')
+CREATE TABLE role (
+    role_name TEXT PRIMARY KEY,
+    check (role_name <> '')
 );
 
 -- Tabla de usuarios
@@ -30,8 +30,8 @@ CREATE TABLE users (
     user_password TEXT NOT NULL,
     user_address TEXT NOT NULL,
     user_phone TEXT NOT NULL,
-    user_profile TEXT NOT NULL,
-    FOREIGN KEY (user_profile) REFERENCES profile(profile_name),
+    user_role TEXT NOT NULL,
+    FOREIGN KEY (user_role) REFERENCES role(role_name),
     CHECK (user_name <> ''),
     CHECK (user_email <> ''),
     CHECK (user_password <> ''),
@@ -48,6 +48,13 @@ CREATE TABLE cart (
     FOREIGN KEY (cart_product) REFERENCES product(product_id),
     PRIMARY KEY (cart_user, cart_product),
     CHECK (cart_quantity > 0)
-)
+);
 
    
+-- Crear un usuario administrador
+INSERT INTO role (role_name) VALUES ('admin');
+INSERT INTO users (user_email, user_name, user_password, user_address, user_phone, user_role) 
+VALUES ('admin@admin.es', 'admin', '$2b$10$9MaW96c51RXbeug7S6lr2.xWNXEb.wrXWLfyJL9evvks5wXTpaklO', 'admin', 'admin', 'admin');
+
+-- Eliminar admin
+DELETE FROM users WHERE user_email = 'admin@admin.es'
