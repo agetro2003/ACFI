@@ -9,7 +9,6 @@ const getUsersCart = async (userId)=>{
     try {
         const res = await pool.query(query, [userId])
         const cart = res.rows
-        console.log(cart)
         return cart
     }   catch (error) {
         throw error
