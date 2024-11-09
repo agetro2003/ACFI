@@ -9,7 +9,6 @@ const checkAuth = (roles) => {
 			if (err || !user) {
 				req.user = { role: 'guest' };
 			}
-            console.log(req.user)
 
 			if (!roles.includes(req.user.user_role)) {
 				return ApiResponse(res, {
