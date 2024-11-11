@@ -58,7 +58,16 @@ const login = async (req, res) => {
                 user_role: user.user_role
          }, process.env.JWT_SECRET || 'secret')
 
-        return ApiResponse(res, { data: { token }, message: 'User logged in', code: 200 })
+        return ApiResponse(res, { data: { token, 
+            user: 
+            { 
+                user_email: user.user_email, 
+                user_name: user.user_name, 
+                user_address: user.user_address, 
+                user_phone: user.user_phone, 
+                user_role: user.user_role
+            } 
+        }, message: 'User logged in', code: 200 })
     } catch (error) {
         return ApiResponse(res, { message: error.message, code: 400 })
     }
