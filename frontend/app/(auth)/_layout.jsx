@@ -11,9 +11,8 @@ export default function AuthLayout() {
   return (
       <Stack screenOptions={{
       }}>
-        <Stack.Screen name="login"/>
+        <Stack.Screen name="index"/>
         <Stack.Screen name="register" />
-        <Stack.Screen name="main/index.jsx" />
       </Stack>
   );
 }
