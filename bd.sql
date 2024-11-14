@@ -28,8 +28,8 @@ CREATE TABLE users (
     user_email TEXT PRIMARY KEY,
     user_name TEXT NOT NULL,
     user_password TEXT NOT NULL,
-    user_address TEXT NOT NULL,
-    user_phone TEXT NOT NULL,
+    user_address TEXT,
+    user_phone TEXT,
     user_role TEXT NOT NULL,
     FOREIGN KEY (user_role) REFERENCES role(role_name),
     CHECK (user_name <> ''),
@@ -58,3 +58,7 @@ VALUES ('admin@admin.es', 'admin', '$2b$10$9MaW96c51RXbeug7S6lr2.xWNXEb.wrXWLfyJ
 
 -- Eliminar admin
 DELETE FROM users WHERE user_email = 'admin@admin.es'
+
+-- Alter table to remove not null constraint on user_address and user_phone
+ALTER TABLE users ALTER COLUMN user_address DROP NOT NULL;
+ALTER TABLE users ALTER COLUMN user_phone DROP NOT NULL;

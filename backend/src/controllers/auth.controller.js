@@ -9,8 +9,6 @@ const register = async (req, res) => {
             user_email,
             user_password,
             user_name,
-            user_address,
-            user_phone
         } = req.body
 
        
@@ -21,8 +19,6 @@ const register = async (req, res) => {
             user_email,
             user_password: encrypt_password,
             user_name,
-            user_address,
-            user_phone,
             user_role
         }
         await crudService.create('users', user)
@@ -53,8 +49,6 @@ const login = async (req, res) => {
             { 
                 user_email, 
                 user_name: user.user_name, 
-                user_address: user.user_address, 
-                user_phone: user.user_phone, 
                 user_role: user.user_role
          }, process.env.JWT_SECRET || 'secret')
 
@@ -63,8 +57,6 @@ const login = async (req, res) => {
             { 
                 user_email: user.user_email, 
                 user_name: user.user_name, 
-                user_address: user.user_address, 
-                user_phone: user.user_phone, 
                 user_role: user.user_role
             } 
         }, message: 'User logged in', code: 200 })
