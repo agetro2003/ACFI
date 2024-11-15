@@ -16,31 +16,34 @@ Boton icono para carrito
 */
 
 
-export default function NavBar({setLogin, Showlogin}) {
+export default function NavBar({setLogin, Showlogin, setSearch, setCategory}) {
   const [categorias, setCategorias] = useState([]);
-  const [busqueda, setBusqueda] = useState("");
   const [cartColor, setCartColor] = useState("black");
   const [accountColor, setAccountColor] = useState("black");
-  const [searchString, setSearchString] = useState("");
   const [globeColor, setGlobeColor] = useState("black");
+  
   useEffect(() => {
-    setCategorias(["Categoria 1", "Categoria 2", "Categoria 3", "Categoria 4"]);
+    fetch("http://localhost:5000/categories")
+      .then((res) => res.json())
+      .then((data) => setCategorias(data.data));
   }, []);
   return (
     <View style={styles.container}>
       <View style={styles.left}>
-        <select placeholder="Categoría" style={styles.catagorias}>
-            <option value="" selected>Categoría</option>
+        <select onChange={e => {
+          setCategory(e.target.value);
+        }} placeholder="Categoría" defaultValue="" style={styles.catagorias}>
+            <option value="">Categoría</option>
           {categorias.map((categoria) => (
-            <option value={categoria}>{categoria}</option>
+            <option key={categoria.category_name} value={categoria.category_name}>{categoria.category_name}</option>
           ))}
         </select>
         <View style={styles.searchSection}>
           <TextInput
             style={styles.input}
             placeholder="Buscar productos"
-            onChangeText={(searchString) => {
-              setSearchString({ searchString });
+            onChangeText={(text) => {
+              setSearch( text );
             }}
             underlineColorAndroid="transparent"
           />
