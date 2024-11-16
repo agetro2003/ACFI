@@ -2,18 +2,40 @@ import { Pressable, Text, View, StyleSheet } from "react-native";
 import { Link } from "expo-router";
 import FormImput from "../FormInput";
 import Modal from "../Modal";
+import { api, authApi } from "../../api/axios";
+import { useState } from "react";
+
 export default function Login({show, setRegister, setShow}) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
   const handler = () => {
     setRegister(true);
     setShow(false);
   };
+
+  const handlerLogin = async () => {
+    try {
+      const res = await authApi.post("/login", {
+        user_email: email,
+        user_password: password,
+      });
+      const token = res.data.data.token;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      setAlertMessage("Inicio de sesión exitoso");
+    } catch (error) {
+      setAlertMessage(error.response.data.message);
+    }
+  };
+
   return (
       <Modal title="Identifícate" show={show}>
         <View style={styles.form}>
-          <FormImput placeholder="Correo Electrónico"></FormImput>
-          <FormImput secureTextEntry placeholder="Contraseña"></FormImput>
-          <Text style={styles.alertMessage}> </Text>
-          <Pressable style={styles.loginButton} onPress={handler}>
+          <FormImput onChange={(e)=>{setEmail(e.target.value)}} placeholder="Correo Electrónico"></FormImput>
+          <FormImput onChange={(e)=>{setPassword(e.target.value)}} secureTextEntry placeholder="Contraseña"></FormImput>
+          <Text style={styles.alertMessage}>{alertMessage}</Text>
+          <Pressable style={styles.loginButton} onPress={handlerLogin}>
             <Text>Iniciar sesión</Text>
           </Pressable>
           <Text style={styles.loginText}>

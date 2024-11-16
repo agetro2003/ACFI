@@ -1,18 +1,49 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { useState } from "react";
+import { api } from "../../api/axios";
 /* Component to show product it has
     - product image
     - product name
     - product price and two buttons one for add one for remove 
     - a button to add to cart
 */
-export default function Product({ product }) {
-const [quantity, setQuantity] = useState(1);
+export default function Product({ product, onPress }) {
 
+    const addToCart = async () => {
+        if ( quantity === 0){
+            alert("Debes añadir al menos una unidad del producto al carrito");
+            return;
+        }
+        if(api.defaults.headers.common["Authorization"] === undefined){
+            alert("Debes iniciar sesión para añadir productos al carrito");
+            return;
+        }
+        try{
+        const res = await api.get("/cart");
+        const cart = res.data.data;
+        const productIndex = cart.findIndex((cartProduct) => cartProduct.cart_product === product.product_id);
+        console.log(productIndex);
+        if(productIndex !== -1){
+            cart[productIndex].cart_quantity += quantity;
+            await api.put("/cart", {product_id: cart[productIndex].cart_product, quantity: cart[productIndex].cart_quantity });
+        } else {
+            await api.post("/cart", {
+                product_id: product.product_id,
+                quantity: quantity,
+            });
+        }
+        alert(`${quantity} Unidades del producto ${product.product_name} añadido al carrito`);
+    } catch (error) {
+            console.error("Error adding to cart:", error);
+        }
+    }
+const [quantity, setQuantity] = useState(1);
 return (
     <View style={style.container}>
-        <Image source={{uri: "../../assets/images/producto.png"}} style={style.image} />   
+        <Pressable onPress={onPress}>
+        <Image source={{uri: "../../assets/images/producto.png"}} style={style.image} />  
+        </Pressable> 
         <Text style={style.product_name}>{product.product_name}</Text>
         <View style={style.priceQuantity}>
            <Text style={style.price}>{product.product_price} €</Text>
@@ -27,7 +58,7 @@ return (
             </View>
             
         </View>
-        <Pressable style={style.addToCart} onPress={()=>{console.log(`add ${quantity}`)}}>
+        <Pressable style={style.addToCart} onPress={async()=>{await addToCart()}}>
             <FontAwesome5 name="cart-plus" size={20} color="black" />     
             </Pressable>
     </View>

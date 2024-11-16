@@ -1,7 +1,7 @@
 import { TextInput, StyleSheet } from "react-native";
-export default function FormImput({placeholder, secureTextEntry}){
+export default function FormImput({placeholder, secureTextEntry, onChange}){
     return (
-        <TextInput placeholder={placeholder} secureTextEntry={secureTextEntry} style={styles.input}></TextInput>
+        <TextInput textContentType="emailAddress" onChange={onChange} placeholder={placeholder} secureTextEntry={secureTextEntry} style={styles.input}></TextInput>
     )
 }
 const styles = StyleSheet.create({

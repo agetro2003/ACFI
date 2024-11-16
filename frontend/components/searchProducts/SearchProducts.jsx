@@ -2,9 +2,9 @@ import { View, StyleSheet, Text } from "react-native";
 import { useEffect, useState } from "react";
 import Slider from '@react-native-community/slider';
 import ProductList from "./ProductList";
-import Product from "./Product";
+import { api } from "../../api/axios";
 
-export default function SearchProducts({ search, selectedCategory }) {
+export default function SearchProducts({ search, selectedCategory, selectedProductObject }) {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(10);
     const [products, setProducts] = useState([])
@@ -13,11 +13,9 @@ export default function SearchProducts({ search, selectedCategory }) {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await fetch("http://localhost:5000/products");
-                const data = await res.json();
-                console.log(data.data);
-                setProducts(data.data);
-                setFilteredProducts(data.data);
+                const res = await api.get("/products");
+                setProducts(res.data.data);
+                setFilteredProducts(res.data.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -25,31 +23,20 @@ export default function SearchProducts({ search, selectedCategory }) {
     
         fetchProducts();
     }, []);
-    const filteredProductsByPrice = products.filter((product) => {
-        return product.product_price >= minPrice && product.product_price <= maxPrice;
-    });
-    const filteredProductsByName = products.filter((product) => {
-        return product.product_name.toLowerCase().includes(search.toLowerCase());
+    const combinedFilters = products.filter((product) => {
+        const matchesPrice = 
+            product.product_price >= minPrice && product.product_price <= maxPrice;
+        const matchesName = 
+            search === "" || product.product_name.toLowerCase().includes(search.toLowerCase());
+        const matchesCategory = 
+            selectedCategory === "" || product.product_category === selectedCategory;
+
+        return matchesPrice && matchesName && matchesCategory;
     });
 
-    const filteredProductsByCategory = products.filter((product) => {
-        console.log(product.product_category);
-        console.log(selectedCategory);
-        return product.product_category === selectedCategory;
-    });
     useEffect(() => {
-        if (selectedCategory === "") {
-            setFilteredProducts(products);
-        } else {
-        setFilteredProducts(filteredProductsByCategory);
-        }
-    }, [selectedCategory]);
-    useEffect(() => {
-        setFilteredProducts(filteredProductsByPrice);
-    }, [minPrice, maxPrice ]);
-    useEffect(() => {
-        setFilteredProducts(filteredProductsByName);
-    }   , [search]);
+        setFilteredProducts(combinedFilters);
+    }, [products, minPrice, maxPrice, search, selectedCategory]);
 
     return (
     <View style={style.container}>
@@ -73,11 +60,12 @@ export default function SearchProducts({ search, selectedCategory }) {
         step={1}
         />
     </View>
-    <View style={style.products}>
+  {/*  <View style={style.products}>
       {filteredProducts.map((product) => (
         <Product key={product.product_id} product={product} />
       ))}
-    </View>
+    </View>*/}
+    <ProductList filteredProducts={filteredProducts} selectProductObject={selectedProductObject} />
         </View>
   );
 }
@@ -93,11 +81,11 @@ const style = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",        
         padding: 10,
-        height: "80vh",
+        height: "90vh",
         width: "100%",
     },
     rangefilter: {
-        height: "100%",
+        height: "90%",
         width: "25%",
         display: "flex",
         flexDirection: "column",

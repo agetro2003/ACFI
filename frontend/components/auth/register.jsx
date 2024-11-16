@@ -2,8 +2,42 @@ import { Text, View, Pressable, StyleSheet, Image } from "react-native";
 import { Link } from "expo-router";
 import FormImput from "../FormInput";
 import Modal from "../Modal";
+import { api, authApi } from "../../api/axios";
+import { useState } from "react";
 
 export default function Register({show, setShow, setLogin}) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [name , setName] = useState("");
+
+  const handlerRegister = async () => {
+    if (password !== confirmPassword) {
+      setAlertMessage("Las contraseñas no coinciden");
+      return;
+    }
+    try {
+      const res = await authApi.post("/register", {
+        user_email: email,
+        user_password: password,
+        user_name: name
+      });
+      const res2 = await authApi.post("/login", {
+        user_email: email,
+        user_password: password,
+      });
+      const token = res2.data.data.token;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setAlertMessage("Registro exitoso");
+    } catch (error) {
+      if (error.response.status === 400) {
+        setAlertMessage("El correo electrónico ya está en uso");
+      }else {
+      setAlertMessage(error.response.data.message);
+    }
+  }
+  };
   const handler = () => {
     setShow(false);
     setLogin(true);
@@ -18,15 +52,16 @@ export default function Register({show, setShow, setLogin}) {
           ></Image>
         </Pressable>
         <View style={styles.form}>
-          <FormImput placeholder="Correo Electrónico"></FormImput>
-          <FormImput secureTextEntry placeholder="Contraseña"></FormImput>
+          <FormImput onChange={(e)=>{setEmail(e.target.value)}} placeholder="Correo Electrónico"></FormImput>
+          <FormImput onChange={(e)=>{setPassword(e.target.value)}} secureTextEntry placeholder="Contraseña"></FormImput>
           <FormImput
+            onChange={(e)=>{setConfirmPassword(e.target.value)}}
             secureTextEntry
             placeholder="Confirmar Contraseña"
           ></FormImput>
-          <FormImput placeholder="Nombre"></FormImput>
-          <Text style={styles.alertMessage}> </Text>
-          <Pressable style={styles.loginButton}><Text>Registrar</Text></Pressable>
+          <FormImput onChange={(e)=>{setName(e.target.value)}} placeholder="Nombre"></FormImput>
+          <Text style={styles.alertMessage}> {alertMessage} </Text>
+          <Pressable onPress={async()=>{handlerRegister()}} style={styles.loginButton}><Text>Registrar</Text></Pressable>
         </View>
       </Modal>
   );

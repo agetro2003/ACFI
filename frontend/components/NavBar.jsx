@@ -4,6 +4,7 @@ import Foundation from "@expo/vector-icons/Foundation";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { api } from "../api/axios";
 /* navbar component with:
 Select para categorias
 Input para buscar productos
@@ -16,16 +17,24 @@ Boton icono para carrito
 */
 
 
-export default function NavBar({setLogin, Showlogin, setSearch, setCategory}) {
+export default function NavBar({setLogin, Showlogin, setSearch, setCategory, setShowCart, showCart, setRegister, ShowRegister}) {
   const [categorias, setCategorias] = useState([]);
   const [cartColor, setCartColor] = useState("black");
   const [accountColor, setAccountColor] = useState("black");
   const [globeColor, setGlobeColor] = useState("black");
   
   useEffect(() => {
-    fetch("http://localhost:5000/categories")
-      .then((res) => res.json())
-      .then((data) => setCategorias(data.data));
+   
+    const fetchCategories = async () => {
+      try{
+      const res = await api.get("/categories");
+      setCategorias(res.data.data);
+    } catch(error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
+    fetchCategories();
+   
   }, []);
   return (
     <View style={styles.container}>
@@ -64,7 +73,8 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory}) {
             </Pressable>
         <Pressable
         onPress={() => {
-            setLogin(!Showlogin);
+            setLogin( ShowRegister ? false : !Showlogin);
+            setRegister(ShowRegister ? false : ShowRegister);
         }
         }
           onHoverIn={() => {
@@ -87,6 +97,9 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory}) {
           }}
           onHoverOut={() => {
             setCartColor("black");
+          }}
+          onPress={() => {
+            setShowCart(!showCart);
           }}
         >
           <Foundation name="shopping-cart" size={24} color={cartColor} />
