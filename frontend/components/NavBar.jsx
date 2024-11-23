@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, View, StyleSheet, TextInput, Pressable } from "react-native";
+import { Button, View, StyleSheet, TextInput, Pressable, Image } from "react-native";
 import Foundation from "@expo/vector-icons/Foundation";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -40,6 +40,9 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
   return (
     <View style={styles.container}>
       <View style={styles.left}>
+        <Pressable onPress={() => {setShowCart(false)}}>
+        <Image  source={{uri: "../../assets/images/producto.png"}} style={{width: 100, height: 50}} />
+        </Pressable>
         <select onChange={e => {
           setCategory(e.target.value);
         }} placeholder="Categoría" defaultValue="" style={styles.catagorias}>
@@ -109,7 +112,7 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
             setCartColor("black");
           }}
           onPress={() => {
-            setShowCart(!showCart);
+            setShowCart(true);
           }}
         >
           <Foundation name="shopping-cart" size={24} color={cartColor} />
