@@ -61,7 +61,7 @@ export default function Register({show, setShow, setLogin}) {
           ></FormImput>
           <FormImput onChange={(e)=>{setName(e.target.value)}} placeholder="Nombre"></FormImput>
           <Text style={styles.alertMessage}> {alertMessage} </Text>
-          <Pressable onPress={async()=>{handlerRegister()}} style={styles.loginButton}><Text>Registrar</Text></Pressable>
+          <Pressable onPress={async()=>{handlerRegister()}} style={styles.loginButton}><Text style={styles.text_center}>Registrar</Text></Pressable>
         </View>
       </Modal>
   );
@@ -114,4 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
+  text_center: {
+    textAlign: "center"
+  }
 });

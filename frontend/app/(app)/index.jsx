@@ -37,7 +37,7 @@ export default function Home() {
   });
 
   return (
-    <View style={styles.background}>
+    <View>
       <NavBar
         setLogin={setShowLogin}
         Showlogin={showLogin}
@@ -48,7 +48,7 @@ export default function Home() {
         setRegister={setShowRegister}
         ShowRegister={showRegister}
       />
-      <View>
+      <View style={styles.background}>
       
         <Login
           show={showLogin}

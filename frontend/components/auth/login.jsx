@@ -36,7 +36,7 @@ export default function Login({show, setRegister, setShow}) {
           <FormImput onChange={(e)=>{setPassword(e.target.value)}} secureTextEntry placeholder="Contraseña"></FormImput>
           <Text style={styles.alertMessage}>{alertMessage}</Text>
           <Pressable style={styles.loginButton} onPress={handlerLogin}>
-            <Text>Iniciar sesión</Text>
+            <Text style={styles.text_center}>Iniciar sesión</Text>
           </Pressable>
           <Text style={styles.loginText}>
             Si no se ha registrado, registrese{" "}
@@ -94,4 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
+  text_center: {
+    textAlign: "center"
+  }
 });
