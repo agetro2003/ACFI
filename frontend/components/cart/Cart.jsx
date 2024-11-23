@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     },
     container: {
         width: "93%",
-        height: "340pt",
+        maxHeight: "85vh",
         padding: 40,
         marginTop: 40,
         margin: "auto",
