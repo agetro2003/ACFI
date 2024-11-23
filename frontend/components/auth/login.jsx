@@ -23,7 +23,7 @@ export default function Login({show, setRegister, setShow}) {
       const token = res.data.data.token;
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      setAlertMessage("Inicio de sesión exitoso");
+      setShow(false);
     } catch (error) {
       setAlertMessage(error.response.data.message);
     }

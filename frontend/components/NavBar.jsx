@@ -5,6 +5,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { api } from "../api/axios";
+import Entypo from '@expo/vector-icons/Entypo';
 /* navbar component with:
 Select para categorias
 Input para buscar productos
@@ -17,7 +18,7 @@ Boton icono para carrito
 */
 
 
-export default function NavBar({setLogin, Showlogin, setSearch, setCategory, setShowCart, showCart, setRegister, ShowRegister}) {
+export default function NavBar({setLogin, Showlogin, setSearch, setCategory, setShowCart, showCart, setRegister, ShowRegister, setShowLogout}) {
   const [categorias, setCategorias] = useState([]);
   const [cartColor, setCartColor] = useState("black");
   const [accountColor, setAccountColor] = useState("black");
@@ -73,8 +74,12 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
             </Pressable>
         <Pressable
         onPress={() => {
+            if(api.defaults.headers.common["Authorization"]){
+                setShowLogout(true);
+            } else {
             setLogin( ShowRegister ? false : !Showlogin);
             setRegister(ShowRegister ? false : ShowRegister);
+            }
         }
         }
           onHoverIn={() => {
@@ -84,12 +89,17 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
             setAccountColor("black");
           }}
         >
-          
+          { api.defaults.headers.common["Authorization"] ?
+          <Entypo name="log-out" size={24} color="black" />
+          :
           <MaterialCommunityIcons
             name="account-settings"
             size={24}
             color={accountColor}
           />
+          }
+          
+          
         </Pressable>
         <Pressable
           onHoverIn={() => {
