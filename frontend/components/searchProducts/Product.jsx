@@ -77,7 +77,7 @@ container: {
     height: "200pt",
     margin: 10,
     borderRadius: 10,
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#00FFFF",
 },
     image: {
         width: "100pt",
