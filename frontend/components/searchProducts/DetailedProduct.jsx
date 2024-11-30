@@ -34,18 +34,9 @@ export default function DetailedProduct({ product, show, setShow }) {
             console.error("Error adding to cart:", error);
         }
     }
-    const handler = () => {
-        setShow(false);
-    }
 
     return (
         <Modal title={product.product_category} show={show}>
-            <Pressable  onPress={handler} style={styles.return}>
-                <Image
-                    style={styles.image}
-                    source={require("@/assets/images/returnIcon.png")}
-                ></Image>
-            </Pressable>
             <View>
                 <Image
                     style={styles.productImage}

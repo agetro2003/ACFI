@@ -22,7 +22,6 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
   const [categorias, setCategorias] = useState([]);
   const [cartColor, setCartColor] = useState("black");
   const [accountColor, setAccountColor] = useState("black");
-  const [globeColor, setGlobeColor] = useState("black");
   
   useEffect(() => {
    
@@ -41,7 +40,7 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
     <View style={styles.container}>
       <View style={styles.left}>
         <Pressable onPress={() => {setShowCart(false)}}>
-        <Image  source={{uri: "../../assets/images/producto.png"}} style={{width: 100, height: 50}} />
+        <Image  source={{uri: "../../assets/images/logo.png"}} style={{width: 100, height: 50}} />
         </Pressable>
         <select onChange={e => {
           setCategory(e.target.value);
@@ -66,15 +65,18 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
       </View>
       <View style={styles.right}>
         <Pressable
-            onHoverIn={() => {
-                setGlobeColor("blue");
-            }}
-            onHoverOut={() => {
-                setGlobeColor("black");
-            }}
-            >
-                <Ionicons name="globe-sharp" size={24} color={globeColor} />
-            </Pressable>
+          onHoverIn={() => {
+            setCartColor("blue");
+          }}
+          onHoverOut={() => {
+            setCartColor("black");
+          }}
+          onPress={() => {
+            setShowCart(true);
+          }}
+        >
+          <Foundation name="shopping-cart" size={24} color={cartColor} />
+        </Pressable>
         <Pressable
         onPress={() => {
             if(api.defaults.headers.common["Authorization"]){
@@ -104,19 +106,6 @@ export default function NavBar({setLogin, Showlogin, setSearch, setCategory, set
           
           
         </Pressable>
-        <Pressable
-          onHoverIn={() => {
-            setCartColor("blue");
-          }}
-          onHoverOut={() => {
-            setCartColor("black");
-          }}
-          onPress={() => {
-            setShowCart(true);
-          }}
-        >
-          <Foundation name="shopping-cart" size={24} color={cartColor} />
-        </Pressable>
       </View>
     </View>
   );
@@ -143,6 +132,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#000000",
+    backgroundColor: "#00DEEB",
   },
   left: {
     flexDirection: "row",
