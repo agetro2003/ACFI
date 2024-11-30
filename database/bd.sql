@@ -53,12 +53,9 @@ CREATE TABLE cart (
    
 -- Crear un usuario administrador
 INSERT INTO role (role_name) VALUES ('admin');
+INSERT INTO role (role_name) VALUES ('customer');
 INSERT INTO users (user_email, user_name, user_password, user_address, user_phone, user_role) 
 VALUES ('admin@admin.es', 'admin', '$2b$10$9MaW96c51RXbeug7S6lr2.xWNXEb.wrXWLfyJL9evvks5wXTpaklO', 'admin', 'admin', 'admin');
 
 -- Eliminar admin
-DELETE FROM users WHERE user_email = 'admin@admin.es'
-
--- Alter table to remove not null constraint on user_address and user_phone
-ALTER TABLE users ALTER COLUMN user_address DROP NOT NULL;
-ALTER TABLE users ALTER COLUMN user_phone DROP NOT NULL;
+--DELETE FROM users WHERE user_email = 'admin@admin.es'
