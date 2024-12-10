@@ -1,3 +1,9 @@
+-- Instrucciones para crear la base de datos y cargar datos de prueba.
+--Categorías
+INSERT INTO category (category_name) VALUES ('chucheria'), 
+('ingredientes'), ('verduras'), ('limpieza'), 
+('refrescos'), ('comida'), ('cosmetica'), ('higiene');
+
 -- Chucheria
 INSERT INTO product (product_name, product_description, product_price, product_category) VALUES
 ('Gomitas de Frutas', 'Gomitas con sabor a frutas surtidas.', 1.5, 'chucheria'),

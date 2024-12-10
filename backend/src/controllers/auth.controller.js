@@ -61,6 +61,8 @@ const login = async (req, res) => {
             } 
         }, message: 'User logged in', code: 200 })
     } catch (error) {
+        console.log("ha ocurrido un error")
+        console.log(error)
         return ApiResponse(res, { message: error.message, code: 400 })
     }
 }

@@ -51,7 +51,7 @@ CREATE TABLE cart (
 );
 
    
--- Crear un usuario administrador
+-- Crear roles esenciales y un usuario administrador
 INSERT INTO role (role_name) VALUES ('admin');
 INSERT INTO role (role_name) VALUES ('customer');
 INSERT INTO users (user_email, user_name, user_password, user_address, user_phone, user_role) 
